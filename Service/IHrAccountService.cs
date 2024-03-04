@@ -11,5 +11,12 @@ namespace Service
     {
         public Hraccount GetManagementMember(String email);
         public List<Hraccount> GetMemberList();
+
+        public void AddAccount(Hraccount account);
+
+        public void Delete(string email);
+
+
+
     }
 }

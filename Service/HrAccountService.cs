@@ -17,6 +17,16 @@ namespace Service
             memRepo = new HrAccountRepo();
         }
 
+        public void AddAccount(Hraccount account)
+        {
+            memRepo.AddAccount(account);
+        }
+
+        public void Delete(string email)
+        {
+            memRepo.Delete(email);   
+        }
+
         public Hraccount GetManagementMember(string email)
         {
             return memRepo.GetManagementMember(email);

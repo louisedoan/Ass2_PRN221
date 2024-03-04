@@ -6,16 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BusinessObject;
+using Service;
 
 namespace DoanNgocTranChau_Ass2.Pages.HrAccounts
 {
     public class CreateModel : PageModel
     {
-        private readonly BusinessObject.CandidateManagement_03Context _context;
+        // private readonly BusinessObject.CandidateManagement_03Context _context;
 
-        public CreateModel(BusinessObject.CandidateManagement_03Context context)
+        private readonly IHrAccountService _hrAccountService;
+        public CreateModel(IHrAccountService hrAccountService)
         {
-            _context = context;
+            _hrAccountService = hrAccountService;
         }
 
         public IActionResult OnGet()
@@ -30,13 +32,13 @@ namespace DoanNgocTranChau_Ass2.Pages.HrAccounts
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Hraccounts == null || Hraccount == null)
+          if (!ModelState.IsValid || _hrAccountService.GetMemberList() == null || Hraccount == null)
             {
                 return Page();
             }
 
-            _context.Hraccounts.Add(Hraccount);
-            await _context.SaveChangesAsync();
+            _hrAccountService.AddAccount(Hraccount);
+           
 
             return RedirectToPage("./Index");
         }

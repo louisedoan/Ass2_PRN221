@@ -51,5 +51,33 @@ namespace DAO
             return dbContext.Hraccounts.ToList();
         }
 
+        public void AddAccount(Hraccount account)
+        {
+            Hraccount hraccount = GetManagementMember(account.Email);
+            if (hraccount == null) 
+            {
+                var dbContext = new CandidateManagement_03Context();
+                dbContext.Add(account);
+                dbContext.SaveChanges();
+            }
+        }
+
+        public void Delete(string email)
+        {
+            Hraccount hraccount = GetManagementMember(email);
+            if (hraccount != null)
+            {
+                var dbContext = new CandidateManagement_03Context();
+                dbContext.Remove(hraccount);
+                dbContext.SaveChanges();
+            }
+        }
+
+        public void Update(Hraccount account)
+        {
+
+        }
+
+
     }
 }
