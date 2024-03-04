@@ -42,6 +42,14 @@ namespace DAO
             return dbContext.Hraccounts.SingleOrDefault(m => m.Email.Equals(email));
 
         }
-       
+
+        public List <Hraccount> GetMemberList()
+        {
+            var dbContext = new CandidateManagement_03Context();
+            //   return dbContent.BookManagementMembers.SingleOrDefault(p => p.Email.Equals(email));
+
+            return dbContext.Hraccounts.ToList();
+        }
+
     }
 }
