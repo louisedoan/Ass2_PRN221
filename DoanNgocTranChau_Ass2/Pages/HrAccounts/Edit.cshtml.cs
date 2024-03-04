@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 
-namespace DoanNgocTranChau_Ass2.Pages.HrAccount
+namespace DoanNgocTranChau_Ass2.Pages.HrAccounts
 {
     public class EditModel : PageModel
     {

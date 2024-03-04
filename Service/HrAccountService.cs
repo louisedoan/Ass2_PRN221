@@ -21,5 +21,10 @@ namespace Service
         {
             return memRepo.GetManagementMember(email);
         }
+
+        public List<Hraccount> GetMemberList()
+        {
+            return memRepo.GetMemberList();
+        }
     }
 }

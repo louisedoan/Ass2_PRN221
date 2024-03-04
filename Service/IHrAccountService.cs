@@ -10,6 +10,6 @@ namespace Service
     public interface IHrAccountService
     {
         public Hraccount GetManagementMember(String email);
-
+        public List<Hraccount> GetMemberList();
     }
 }
