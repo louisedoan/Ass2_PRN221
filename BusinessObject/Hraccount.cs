@@ -9,5 +9,7 @@ namespace BusinessObject
         public string? Password { get; set; }
         public string? FullName { get; set; }
         public int? MemberRole { get; set; }
+
+        
     }
 }

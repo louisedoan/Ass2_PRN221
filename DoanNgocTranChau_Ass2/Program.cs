@@ -17,6 +17,8 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
 }
+
+
 app.UseStaticFiles();
 
 app.UseSession();
@@ -28,3 +30,11 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    endpoints.MapControllerRoute(
+        name: "register",
+        pattern: "/Register/{handler?}",
+        defaults: new { controller = "Register", action = "DangNhap" });
+});

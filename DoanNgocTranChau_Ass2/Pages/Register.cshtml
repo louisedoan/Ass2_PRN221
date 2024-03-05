@@ -1,0 +1,25 @@
+﻿@page
+@model DoanNgocTranChau_Ass2.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="inputEmail">Email</label>
+        <input asp-for="Email" class="form-control" id="inputEmail" placeholder="Enter your email" required autofocus>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword">Password</label>
+        <input asp-for="Password" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-danger mt-3" role="alert">
+        @ViewData["Message"]
+    </div>
+}
