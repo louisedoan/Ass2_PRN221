@@ -16,5 +16,7 @@ namespace Repository
 
         public void Delete(string email);
 
+        public void Update(Hraccount account);
+
     }
 }

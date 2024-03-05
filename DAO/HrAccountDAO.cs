@@ -46,7 +46,6 @@ namespace DAO
         public List <Hraccount> GetMemberList()
         {
             var dbContext = new CandidateManagement_03Context();
-            //   return dbContent.BookManagementMembers.SingleOrDefault(p => p.Email.Equals(email));
 
             return dbContext.Hraccounts.ToList();
         }
@@ -57,7 +56,7 @@ namespace DAO
             if (hraccount == null) 
             {
                 var dbContext = new CandidateManagement_03Context();
-                dbContext.Add(account);
+                dbContext.Hraccounts.Add(account);
                 dbContext.SaveChanges();
             }
         }
@@ -75,7 +74,13 @@ namespace DAO
 
         public void Update(Hraccount account)
         {
-
+            Hraccount hraccount = GetManagementMember(account.Email);
+            if(hraccount != null)
+            {
+                var dbContext = new CandidateManagement_03Context();
+                dbContext.Update(account);
+                dbContext.SaveChanges();
+            }
         }
 
 

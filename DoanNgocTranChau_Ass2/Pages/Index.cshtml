@@ -5,6 +5,13 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Login</h1>
+    <form method="post">
+        <label>Email</label>
+        <input asp-for="Email" type="text" />
+        <br/>
+        <label>Password</label>
+        <input asp-for="Password" type="text" />
+        <input type="submit" value="Login"/>
+    </form>
 </div>

@@ -18,6 +18,8 @@ namespace Repository
         public Hraccount GetManagementMember(string email)=> HrAccountDAO.Instance.GetManagementMember(email);
 
         public List<Hraccount> GetMemberList()=>HrAccountDAO.Instance.GetMemberList();
-        
+
+        public void Update(Hraccount account)=>HrAccountDAO.Instance.Update(account);
+       
     }
 }

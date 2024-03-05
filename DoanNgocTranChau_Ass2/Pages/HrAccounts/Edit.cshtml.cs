@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
+using Service;
 
 namespace DoanNgocTranChau_Ass2.Pages.HrAccounts
 {
     public class EditModel : PageModel
     {
-        private readonly BusinessObject.CandidateManagement_03Context _context;
+        //  private readonly BusinessObject.CandidateManagement_03Context _context;
 
-        public EditModel(BusinessObject.CandidateManagement_03Context context)
+        private readonly IHrAccountService _hrAccountService;
+        public EditModel(IHrAccountService hrAccountService)
         {
-            _context = context;
+            _hrAccountService = hrAccountService;
         }
 
         [BindProperty]
@@ -24,12 +26,14 @@ namespace DoanNgocTranChau_Ass2.Pages.HrAccounts
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (id == null || _context.Hraccounts == null)
+            if (id == null || _hrAccountService.GetMemberList == null)
             {
                 return NotFound();
             }
 
-            var hraccount =  await _context.Hraccounts.FirstOrDefaultAsync(m => m.Email == id);
+            //  var hraccount =  await _context.Hraccounts.FirstOrDefaultAsync(m => m.Email == id);
+             var hraccount = _hrAccountService.GetManagementMember(id);
+
             if (hraccount == null)
             {
                 return NotFound();
@@ -42,16 +46,16 @@ namespace DoanNgocTranChau_Ass2.Pages.HrAccounts
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+           /* if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Attach(Hraccount).State = EntityState.Modified;
+            _hrAccountService.Attach(Hraccount).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _hrAccountService.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -63,14 +67,20 @@ namespace DoanNgocTranChau_Ass2.Pages.HrAccounts
                 {
                     throw;
                 }
-            }
+            }*/
+           try
+            {
+                _hrAccountService.Update(Hraccount);
+            }catch (Exception ex)
+            {
 
+            }
             return RedirectToPage("./Index");
         }
 
-        private bool HraccountExists(string id)
+        /*private bool HraccountExists(string id)
         {
-          return (_context.Hraccounts?.Any(e => e.Email == id)).GetValueOrDefault();
-        }
+          return (_hrAccountService.Hraccounts?.Any(e => e.Email == id)).GetValueOrDefault();
+        }*/
     }
 }

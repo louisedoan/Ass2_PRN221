@@ -36,5 +36,10 @@ namespace Service
         {
             return memRepo.GetMemberList();
         }
+
+        public void Update(Hraccount account)
+        {
+          memRepo.Update(account);
+        }
     }
 }
