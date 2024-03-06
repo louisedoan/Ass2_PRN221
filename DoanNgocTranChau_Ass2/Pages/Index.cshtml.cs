@@ -50,7 +50,7 @@ namespace DoanNgocTranChau_Ass2.Pages
                         HttpContext.Session.SetString("role", "user");
                         HttpContext.Session.SetString("email", account.Email);
                         // HttpContext.Session.SetString("fullname", account.FullName);
-                        return Redirect("User");
+                        return Redirect("User/Index");
                         break;
                     default:
                         break;
