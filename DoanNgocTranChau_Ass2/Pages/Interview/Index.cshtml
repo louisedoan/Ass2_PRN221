@@ -1,0 +1,62 @@
+﻿@page
+@model DoanNgocTranChau_Ass2.Pages.Interview.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>InterviewId</th>
+            <th>InterviewDate</th>
+            <th>InterviewLocation</th>
+            <th>Interviewer</th>
+            <th>Candidate</th>
+           
+           
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.CandidateList != null && Model.CandidateList.Any())
+        {
+            @foreach (var item in Model.InterviewSchedule)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.InterviewId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.InterviewDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.InterviewLocation)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Interviewer)</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.CandidateId) && Model.CandidateList.ContainsKey(item.CandidateId))
+                        {
+                            <span>@Model.CandidateList[item.CandidateId]</span>
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.InterviewId">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.InterviewId">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.InterviewId">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">No data available</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

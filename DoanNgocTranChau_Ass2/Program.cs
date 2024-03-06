@@ -3,6 +3,8 @@ using Service;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IHrAccountService, HrAccountService>();
 builder.Services.AddScoped<ICandidateService, CandidateService>();
+builder.Services.AddScoped<IScheduleService, ScheduleService>();
+builder.Services.AddScoped<IJobPostServicecs, JobPostService>();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSession(options =>

@@ -16,48 +16,49 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CandidateProfile[0].Fullname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CandidateProfile[0].Birthday)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CandidateProfile[0].ProfileShortDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CandidateProfile[0].ProfileUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CandidateProfile[0].Posting)
-            </th>
-            <th></th>
+            <th>Full Name</th>
+            <th>Birthday</th>
+            <th>Short Description</th>
+            <th>Profile URL</th>
+            <th>Job Posting</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.CandidateProfile) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fullname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Birthday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfileShortDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfileUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Posting.PostingId)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.CandidateId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.CandidateId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.CandidateId">Delete</a>
-            </td>
-        </tr>
-}
+        @if (Model.JobPostings != null && Model.JobPostings.Any())
+        {
+            @foreach (var item in Model.CandidateProfile)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Fullname)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Birthday)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ProfileShortDescription)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ProfileUrl)</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.PostingId) && Model.JobPostings.ContainsKey(item.PostingId))
+                        {
+                            <span>@Model.JobPostings[item.PostingId]</span>
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.CandidateId">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.CandidateId">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.CandidateId">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">No data available</td>
+            </tr>
+        }
+
     </tbody>
 </table>
+

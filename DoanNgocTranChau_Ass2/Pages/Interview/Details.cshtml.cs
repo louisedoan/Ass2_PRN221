@@ -8,34 +8,34 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using Service;
 
-namespace DoanNgocTranChau_Ass2.Pages.Candidate
+namespace DoanNgocTranChau_Ass2.Pages.Interview
 {
     public class DetailsModel : PageModel
     {
         // private readonly BusinessObject.CandidateManagement_03Context _context;
-        private readonly ICandidateService _candidateService;
-        public DetailsModel(ICandidateService candidateService)
+        private readonly IScheduleService _scheduleService;
+        public DetailsModel(IScheduleService scheduleService)
         {
-            _candidateService = candidateService;
+            _scheduleService = scheduleService;
         }
 
-      public CandidateProfile CandidateProfile { get; set; } = default!; 
+      public InterviewSchedule InterviewSchedule { get; set; } = default!; 
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (id == null || _candidateService.GetAllCandidate == null)
+            if (id == null || _scheduleService.GetSchedules == null)
             {
                 return NotFound();
             }
 
-            var candidateprofile =  _candidateService.GetById(id);
-                if (candidateprofile == null)
+            var interviewschedule =  _scheduleService.GetById(id);
+            if (interviewschedule == null)
             {
                 return NotFound();
             }
             else 
             {
-                CandidateProfile = candidateprofile;
+                InterviewSchedule = interviewschedule;
             }
             return Page();
         }

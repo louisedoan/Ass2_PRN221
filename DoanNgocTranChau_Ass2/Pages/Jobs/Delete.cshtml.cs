@@ -8,51 +8,52 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using Service;
 
-namespace DoanNgocTranChau_Ass2.Pages.Candidate
+namespace DoanNgocTranChau_Ass2.Pages.Jobs
 {
     public class DeleteModel : PageModel
     {
-        //private readonly BusinessObject.CandidateManagement_03Context _context;
-        private readonly ICandidateService _candidateService;
-        public DeleteModel(ICandidateService candidateService)
+        //  private readonly BusinessObject.CandidateManagement_03Context _context;
+        private readonly IJobPostServicecs _jobPostService;
+        public DeleteModel(IJobPostServicecs jobPostService)
         {
-            _candidateService = candidateService;
+            _jobPostService = jobPostService;
         }
 
         [BindProperty]
-      public CandidateProfile CandidateProfile { get; set; } = default!;
+      public JobPosting JobPosting { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (id == null || _candidateService.GetAllCandidate == null)
+            if (id == null || _jobPostService.GetJobs == null)
             {
                 return NotFound();
             }
 
-            var candidateprofile =  _candidateService.GetById(id);
+            var jobposting = _jobPostService.GetById(id);
 
-            if (candidateprofile == null)
+            if (jobposting == null)
             {
                 return NotFound();
             }
             else 
             {
-                CandidateProfile = candidateprofile;
+                JobPosting = jobposting;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
-            if (id == null || _candidateService.GetAllCandidate == null)
+            if (id == null || _jobPostService.GetJobs == null)
             {
                 return NotFound();
             }
-            var candidateprofile =  _candidateService.GetById(id);
+            var jobposting =  _jobPostService.GetById(id);
 
-            if (candidateprofile != null)
+            if (jobposting != null)
             {
-                _candidateService.DeleteCandidate(id);
+                _jobPostService.DeleteJob(id);
+
             }
 
             return RedirectToPage("./Index");

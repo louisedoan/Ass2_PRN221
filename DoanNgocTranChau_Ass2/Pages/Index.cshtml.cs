@@ -41,11 +41,18 @@ namespace DoanNgocTranChau_Ass2.Pages
                         return Redirect("Candidate");
                         break;
                         case 2:
-
+                        HttpContext.Session.SetString("role", "staff");
+                        HttpContext.Session.SetString("email", account.Email);
+                        // HttpContext.Session.SetString("fullname", account.FullName);
+                        return Redirect("Candidate");
                         break;
                     case 3:
+                        HttpContext.Session.SetString("role", "user");
+                        HttpContext.Session.SetString("email", account.Email);
+                        // HttpContext.Session.SetString("fullname", account.FullName);
+                        return Redirect("Candidate");
                         break;
-                        default:
+                    default:
                         break;
                 }
                

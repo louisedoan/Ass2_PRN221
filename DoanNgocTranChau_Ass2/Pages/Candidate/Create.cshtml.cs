@@ -6,40 +6,54 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BusinessObject;
+using Service;
 
 namespace DoanNgocTranChau_Ass2.Pages.Candidate
 {
     public class CreateModel : PageModel
-    {
-        private readonly BusinessObject.CandidateManagement_03Context _context;
+       {
+        private readonly ICandidateService _candidateService;
+        private readonly IJobPostServicecs _jobPostServicecs;
 
-        public CreateModel(BusinessObject.CandidateManagement_03Context context)
+        public CreateModel(ICandidateService candidateService, IJobPostServicecs jobPostServicecs)
         {
-            _context = context;
-        }
-
-        public IActionResult OnGet()
-        {
-        ViewData["PostingId"] = new SelectList(_context.JobPostings, "PostingId", "PostingId");
-            return Page();
+            _candidateService = candidateService;
+            _jobPostServicecs = jobPostServicecs;
         }
 
         [BindProperty]
-        public CandidateProfile CandidateProfile { get; set; } = default!;
-        
+        public CandidateProfile CandidateProfile { get; set; }
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        public List<SelectListItem> JobPostings { get; set; }
+
+        public IActionResult OnGet()
+        {
+            var jobsData = _jobPostServicecs.GetJobs();
+            JobPostings = new List<SelectListItem>();
+            foreach (var job in jobsData)
+            {
+                JobPostings.Add(new SelectListItem
+                {
+                    Text = job.JobPostingTitle,
+                    Value = job.PostingId.ToString()
+                });
+            }
+
+            return Page();
+        }
+
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.CandidateProfiles == null || CandidateProfile == null)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.CandidateProfiles.Add(CandidateProfile);
-            await _context.SaveChangesAsync();
+            _candidateService.AddCadidate(CandidateProfile);
+           
 
             return RedirectToPage("./Index");
         }
     }
 }
+  

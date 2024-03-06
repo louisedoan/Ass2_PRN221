@@ -47,7 +47,8 @@ namespace DoanNgocTranChau_Ass2.Pages.HrAccounts
             {
                 return NotFound();
             }
-            var hraccount = _hrAccountService.GetManagementMember(id);          if (hraccount != null)
+            var hraccount = _hrAccountService.GetManagementMember(id);         
+            if (hraccount != null)
             {
                 _hrAccountService.Delete(id);
             }

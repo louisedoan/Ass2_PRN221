@@ -14,7 +14,8 @@ namespace DoanNgocTranChau_Ass2.Pages
 
         [BindProperty]
         public string Password { get; set; }
-
+        [BindProperty]
+        public string FullName { get; set; }
         public RegisterModel(IHrAccountService accountRepository)
         {
             _accountRepository = accountRepository;
@@ -37,7 +38,7 @@ namespace DoanNgocTranChau_Ass2.Pages
                 {
                     Email = Email,
                     Password = Password,
-                    FullName = Email,
+                    FullName = FullName,
                     MemberRole = 3 
                 };
 

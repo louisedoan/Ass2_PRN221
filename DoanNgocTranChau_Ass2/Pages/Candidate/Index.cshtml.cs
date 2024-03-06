@@ -7,27 +7,38 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using Service;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DoanNgocTranChau_Ass2.Pages.Candidate
 {
     public class IndexModel : PageModel
     {
-        // private readonly BusinessObject.CandidateManagement_03Context _context;
         private readonly ICandidateService _candidateService;
-        public IndexModel(ICandidateService candidateService)
+        private readonly IJobPostServicecs _jobPostServicecs;
+
+        public IndexModel(ICandidateService candidateService, IJobPostServicecs jobPostServicecs)
         {
             _candidateService = candidateService;
+            _jobPostServicecs = jobPostServicecs;
         }
 
-        public IList<CandidateProfile> CandidateProfile { get; set; } = default!;
+        public IList<CandidateProfile> CandidateProfile { get; set; }
+        public Dictionary<string, string> JobPostings { get; set; }
 
-        public async Task OnGetAsync()
+        public IActionResult OnGet()
         {
-            if (_candidateService.GetAllCandidate != null)
-            {
-                CandidateProfile = _candidateService.GetAllCandidate();
+            // Lấy danh sách ứng viên
+            CandidateProfile = _candidateService.GetAllCandidate();
 
+            // Lấy danh sách công việc
+            var jobsData = _jobPostServicecs.GetJobs();
+            JobPostings = new Dictionary<string, string>();
+            foreach (var job in jobsData)
+            {
+                JobPostings.Add(job.PostingId, job.JobPostingTitle);
             }
+
+            return Page();
         }
     }
 }
