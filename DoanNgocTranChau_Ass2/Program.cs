@@ -2,6 +2,7 @@ using Service;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IHrAccountService, HrAccountService>();
+builder.Services.AddScoped<ICandidateService, CandidateService>();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSession(options =>
@@ -30,11 +31,4 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapRazorPages();
-    endpoints.MapControllerRoute(
-        name: "register",
-        pattern: "/Register/{handler?}",
-        defaults: new { controller = "Register", action = "DangNhap" });
-});
+
