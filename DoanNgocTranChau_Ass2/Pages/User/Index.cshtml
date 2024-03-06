@@ -1,0 +1,39 @@
+﻿@page
+@model DoanNgocTranChau_Ass2.Pages.User.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "/Pages/Shared/_LayoutUser.cshtml";
+}
+<table class="table">
+<thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.JobPosting[0].JobPostingTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobPosting[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobPosting[0].PostedDate)
+        </th>
+        <th></th>
+    </tr>
+</thead>
+<tbody>
+    @foreach (var item in Model.JobPosting)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobPostingTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostedDate)
+            </td>
+           
+        </tr>
+    }
+</tbody>
+</table>

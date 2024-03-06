@@ -7,35 +7,49 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
+using Service;
+using Microsoft.Build.Execution;
 
 namespace DoanNgocTranChau_Ass2.Pages.Interview
 {
     public class EditModel : PageModel
     {
-        private readonly BusinessObject.CandidateManagement_03Context _context;
-
-        public EditModel(BusinessObject.CandidateManagement_03Context context)
+      //  private readonly BusinessObject.CandidateManagement_03Context _context;
+      private readonly IScheduleService _scheduleService;
+       private readonly ICandidateService _candidateService;
+        public EditModel(IScheduleService scheduleService, ICandidateService candidateService)
         {
-            _context = context;
+            _scheduleService = scheduleService;
+            _candidateService = candidateService;
         }
 
         [BindProperty]
         public InterviewSchedule InterviewSchedule { get; set; } = default!;
+        public List<SelectListItem> CandidatesList { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (id == null || _context.InterviewSchedules == null)
+            if (id == null || _scheduleService.GetSchedules == null)
             {
                 return NotFound();
             }
 
-            var interviewschedule =  await _context.InterviewSchedules.FirstOrDefaultAsync(m => m.InterviewId == id);
+            var interviewschedule =   _scheduleService.GetById(id);
             if (interviewschedule == null)
             {
                 return NotFound();
             }
             InterviewSchedule = interviewschedule;
-           ViewData["CandidateId"] = new SelectList(_context.CandidateProfiles, "CandidateId", "CandidateId");
+            var candidateData = _candidateService.GetAllCandidate();
+            CandidatesList = new List<SelectListItem>();
+            foreach (var candidate in candidateData)
+            {
+                CandidatesList.Add(new SelectListItem
+                {
+                    Text = candidate.Fullname,
+                    Value = candidate.CandidateId.ToString()
+                });
+            }
             return Page();
         }
 
@@ -43,7 +57,7 @@ namespace DoanNgocTranChau_Ass2.Pages.Interview
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
                 return Page();
             }
@@ -64,14 +78,14 @@ namespace DoanNgocTranChau_Ass2.Pages.Interview
                 {
                     throw;
                 }
-            }
-
+            }*/
+            _scheduleService.UpdateInterview(InterviewSchedule);
             return RedirectToPage("./Index");
         }
 
-        private bool InterviewScheduleExists(string id)
+        /*private bool InterviewScheduleExists(string id)
         {
           return (_context.InterviewSchedules?.Any(e => e.InterviewId == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }

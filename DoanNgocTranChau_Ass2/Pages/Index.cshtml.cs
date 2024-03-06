@@ -44,13 +44,13 @@ namespace DoanNgocTranChau_Ass2.Pages
                         HttpContext.Session.SetString("role", "staff");
                         HttpContext.Session.SetString("email", account.Email);
                         // HttpContext.Session.SetString("fullname", account.FullName);
-                        return Redirect("Candidate");
+                        return Redirect("Jobs");
                         break;
                     case 3:
                         HttpContext.Session.SetString("role", "user");
                         HttpContext.Session.SetString("email", account.Email);
                         // HttpContext.Session.SetString("fullname", account.FullName);
-                        return Redirect("Candidate");
+                        return Redirect("User");
                         break;
                     default:
                         break;

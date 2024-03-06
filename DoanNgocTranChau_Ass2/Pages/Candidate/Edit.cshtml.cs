@@ -7,35 +7,48 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
+using Service;
 
 namespace DoanNgocTranChau_Ass2.Pages.Candidate
 {
     public class EditModel : PageModel
     {
-        private readonly BusinessObject.CandidateManagement_03Context _context;
+        //private readonly BusinessObject.CandidateManagement_03Context _context;
+        private readonly ICandidateService _candidateService;
 
-        public EditModel(BusinessObject.CandidateManagement_03Context context)
+        private readonly IJobPostServicecs _jobPostServicecs;
+        public EditModel(ICandidateService candidateService, IJobPostServicecs jobPostServicecs)
         {
-            _context = context;
+            _candidateService = candidateService;
+            _jobPostServicecs = jobPostServicecs;
         }
 
         [BindProperty]
         public CandidateProfile CandidateProfile { get; set; } = default!;
-
+        public List<SelectListItem> JobPostings { get; set; }
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (id == null || _context.CandidateProfiles == null)
+            if (id == null || _candidateService.GetAllCandidate == null)
             {
                 return NotFound();
             }
 
-            var candidateprofile =  await _context.CandidateProfiles.FirstOrDefaultAsync(m => m.CandidateId == id);
+            var candidateprofile = _candidateService.GetById(id);
             if (candidateprofile == null)
             {
                 return NotFound();
             }
             CandidateProfile = candidateprofile;
-           ViewData["PostingId"] = new SelectList(_context.JobPostings, "PostingId", "PostingId");
+            var jobsData = _jobPostServicecs.GetJobs();
+            JobPostings = new List<SelectListItem>();
+            foreach (var job in jobsData)
+            {
+                JobPostings.Add(new SelectListItem
+                {
+                    Text = job.JobPostingTitle,
+                    Value = job.PostingId.ToString()
+                });
+            }
             return Page();
         }
 
@@ -43,35 +56,21 @@ namespace DoanNgocTranChau_Ass2.Pages.Candidate
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            _context.Attach(CandidateProfile).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _candidateService.UpdateCandidate(CandidateProfile);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!CandidateProfileExists(CandidateProfile.CandidateId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
+            }
             return RedirectToPage("./Index");
+            
         }
 
-        private bool CandidateProfileExists(string id)
+        /*private bool CandidateProfileExists(string id)
         {
           return (_context.CandidateProfiles?.Any(e => e.CandidateId == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }
