@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Service;
+using System.Diagnostics.Metrics;
 using System.Security.Principal;
 
 namespace DoanNgocTranChau_Ass2.Pages
@@ -30,7 +31,24 @@ namespace DoanNgocTranChau_Ass2.Pages
 
             if (account != null && password.Equals(account.Password))
             {
-                return Redirect("HrAccounts");
+
+                switch (account.MemberRole)
+                {
+                    case 1:
+                        HttpContext.Session.SetString("role", "admin");
+                        HttpContext.Session.SetString("email", account.Email);
+                       // HttpContext.Session.SetString("fullname", account.FullName);
+                        return Redirect("Candidate");
+                        break;
+                        case 2:
+
+                        break;
+                    case 3:
+                        break;
+                        default:
+                        break;
+                }
+               
             }
             return Redirect("Index");
         }
